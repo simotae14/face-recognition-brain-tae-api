@@ -1,0 +1,24 @@
+{
+  "name": "face-recognition-brain-tae-api",
+  "version": "1.0.0",
+  "description": "Node Restful APIs for the face recognition web app",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simotae14/face-recognition-brain-tae-api.git"
+  },
+  "keywords": [
+    "node",
+    "restful",
+    "api"
+  ],
+  "author": "Simone Taeggi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/simotae14/face-recognition-brain-tae-api/issues"
+  },
+  "homepage": "https://github.com/simotae14/face-recognition-brain-tae-api#readme"
+}
