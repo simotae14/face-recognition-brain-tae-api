@@ -20,5 +20,11 @@
   "bugs": {
     "url": "https://github.com/simotae14/face-recognition-brain-tae-api/issues"
   },
-  "homepage": "https://github.com/simotae14/face-recognition-brain-tae-api#readme"
+  "homepage": "https://github.com/simotae14/face-recognition-brain-tae-api#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
 }
