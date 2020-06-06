@@ -1,10 +1,14 @@
 const express = require('express');
 const bcrypt = require('bcrypt-nodejs');
+const cors = require('cors');
 
 const app = express();
 
 // use body
 app.use(express.json());
+// use cors
+app.use(cors());
+
 
 // mocked DB
 const database = {
