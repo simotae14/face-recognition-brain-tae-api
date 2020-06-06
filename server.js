@@ -1,4 +1,5 @@
 const express = require('express');
+const bcrypt = require('bcrypt-nodejs');
 
 const app = express();
 
@@ -24,6 +25,13 @@ const database = {
       entries: 0,
       joined: new Date()
     }
+  ],
+  login: [
+    {
+      id: '987',
+      hash: '',
+      email: 'john@gmail.com'
+    }
   ]
 }
 
@@ -34,6 +42,12 @@ app.get('/', (req, res) => {
 
 // signin route
 app.post('/signin', (req, res) => {
+  bcrypt.compare("apples", '$2a$10$pcluhyxwvfWiE4lszM5sAeOMPYdpLfwgEbOc0DeEuNTyBGNK54sJ6', (err, res) => {
+    console.log('first guess', res);
+  });
+  bcrypt.compare("veggies", '$2a$10$pcluhyxwvfWiE4lszM5sAeOMPYdpLfwgEbOc0DeEuNTyBGNK54sJ6', (err, res) => {
+    console.log('second guess', res);
+  });
   if(req.body.email === database.users[0].email && req.body.password === database.users[0].password) {
     res.json('success');
   } else {
@@ -48,6 +62,9 @@ app.post('/register', (req, res) => {
     name,
     password
   } = req.body;
+  bcrypt.hash(password, null, null, (err, hash) => {
+    console.log(hash);
+  });
   database.users.push({
     id: '125',
     name,
@@ -95,13 +112,3 @@ app.put('/image', (req, res) => {
 app.listen(3000, () => {
   console.log('app is running on port 3000');
 });
-
-/*
-basic routes:
-
-/ --> response = this is working
-/signin -> POST = success/fail
-/register -> POST = user
-/profile/:userId => GET = user
-/image => PUT = user
-*/
