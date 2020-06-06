@@ -46,12 +46,14 @@ app.get('/', (req, res) => {
 
 // signin route
 app.post('/signin', (req, res) => {
+  /*
   bcrypt.compare("apples", '$2a$10$pcluhyxwvfWiE4lszM5sAeOMPYdpLfwgEbOc0DeEuNTyBGNK54sJ6', (err, res) => {
     console.log('first guess', res);
   });
   bcrypt.compare("veggies", '$2a$10$pcluhyxwvfWiE4lszM5sAeOMPYdpLfwgEbOc0DeEuNTyBGNK54sJ6', (err, res) => {
     console.log('second guess', res);
   });
+  */
   if(req.body.email === database.users[0].email && req.body.password === database.users[0].password) {
     res.json('success');
   } else {
