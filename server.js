@@ -109,6 +109,6 @@ app.put('/image', (req, res) => {
   }
 })
 
-app.listen(3000, () => {
-  console.log('app is running on port 3000');
+app.listen(8080, () => {
+  console.log('app is running on port 8080');
 });
