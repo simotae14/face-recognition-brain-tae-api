@@ -2,7 +2,7 @@ const express = require('express');
 const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
 const knex = require('knex');
-const postgres = knex({
+const db = knex({
   client: 'pg',
   connection: {
     host: '127.0.0.1',
@@ -13,7 +13,9 @@ const postgres = knex({
 });
 
 // select knex
-console.log(postgres.select('*').from('users'));
+db.select('*').from('users')
+  // promise select
+  .then(data => console.log(data));
 
 const app = express();
 
@@ -84,6 +86,13 @@ app.post('/register', (req, res) => {
   bcrypt.hash(password, null, null, (err, hash) => {
     console.log(hash);
   });
+  // knex add item
+  db('users').insert({
+    name,
+    email,
+    joined: new Date()
+  }).then(console.log);
+
   database.users.push({
     id: '125',
     name,
