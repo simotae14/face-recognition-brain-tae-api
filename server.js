@@ -87,20 +87,21 @@ app.post('/register', (req, res) => {
     console.log(hash);
   });
   // knex add item
-  db('users').insert({
-    name,
-    email,
-    joined: new Date()
-  }).then(console.log);
-
-  database.users.push({
-    id: '125',
-    name,
-    email,
-    entries: 0,
-    joined: new Date()
-  });
-  res.json(database.users[database.users.length - 1]);
+  db('users')
+    // returning value
+    .returning('*')
+    .insert({
+      name,
+      email,
+      joined: new Date()
+    })
+    // return the json object of all the users
+    .then(user => {
+      res.json(user[0]);
+    })
+    // replace the real error with a generic error
+    //.catch(err => res.status(400).json(err));
+    .catch(() => res.status(400).json("unable to register"));
 });
 
 // profile route
