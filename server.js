@@ -24,36 +24,6 @@ app.use(express.json());
 // use cors
 app.use(cors());
 
-
-// mocked DB
-const database = {
-  users: [
-    {
-      id: '123',
-      name: 'John',
-      email: 'john@gmail.com',
-      password: 'cookies',
-      entries: 0,
-      joined: new Date()
-    },
-    {
-      id: '124',
-      name: 'Sally',
-      email: 'sally@gmail.com',
-      password: 'bananas',
-      entries: 0,
-      joined: new Date()
-    }
-  ],
-  login: [
-    {
-      id: '987',
-      hash: '',
-      email: 'john@gmail.com'
-    }
-  ]
-}
-
 // root route
 app.get('/', (req, res) => {
   res.send(database.users);
@@ -83,25 +53,36 @@ app.post('/register', (req, res) => {
     name,
     password
   } = req.body;
-  bcrypt.hash(password, null, null, (err, hash) => {
-    console.log(hash);
-  });
-  // knex add item
-  db('users')
-    // returning value
-    .returning('*')
-    .insert({
-      name,
-      email,
-      joined: new Date()
+  const hash = bcrypt.hashSync(password);
+  // add transaction
+  db.transaction(trx => {
+    trx.insert({
+      hash,
+      email
     })
-    // return the json object of all the users
-    .then(user => {
-      res.json(user[0]);
+    .into('login')
+    .returning('email')
+    .then(loginEmail => {
+      // knex add item
+      return trx('users')
+        // returning value
+        .returning('*')
+        .insert({
+          name,
+          email: loginEmail[0],
+          joined: new Date()
+        })
+        // return the json object of all the users
+        .then(user => {
+          res.json(user[0]);
+        })
     })
-    // replace the real error with a generic error
-    //.catch(err => res.status(400).json(err));
-    .catch(() => res.status(400).json("unable to register"));
+    .then(trx.commit)
+    .catch(trx.rollback)
+  })
+  // replace the real error with a generic error
+  //.catch(err => res.status(400).json(err));
+  .catch(() => res.status(400).json("unable to register"));
 });
 
 // profile route
