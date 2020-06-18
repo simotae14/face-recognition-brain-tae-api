@@ -12,11 +12,6 @@ const db = knex({
   }
 });
 
-// select knex
-db.select('*').from('users')
-  // promise select
-  .then(data => console.log(data));
-
 const app = express();
 
 // use body
@@ -31,19 +26,24 @@ app.get('/', (req, res) => {
 
 // signin route
 app.post('/signin', (req, res) => {
-  /*
-  bcrypt.compare("apples", '$2a$10$pcluhyxwvfWiE4lszM5sAeOMPYdpLfwgEbOc0DeEuNTyBGNK54sJ6', (err, res) => {
-    console.log('first guess', res);
-  });
-  bcrypt.compare("veggies", '$2a$10$pcluhyxwvfWiE4lszM5sAeOMPYdpLfwgEbOc0DeEuNTyBGNK54sJ6', (err, res) => {
-    console.log('second guess', res);
-  });
-  */
-  if(req.body.email === database.users[0].email && req.body.password === database.users[0].password) {
-    res.json(database.users[0]);
-  } else {
-    res.status(400).json('error logging in');
-  }
+  db.select('email', 'hash').from('login')
+    .where('email', '=', req.body.email)
+    .then(data => {
+      // check if the email inserted is equals the one hashed
+      const isValid = bcrypt.compareSync(req.body.password, data[0].hash);
+      if (isValid) {
+        // respond with the user
+        return db.select('*').from('users')
+          .where('email',  '=', req.body.email)
+          .then(user => {
+            res.json(user[0]);
+          })
+          .catch(err => res.status(400).json('unable to get user'));
+      } else {
+        res.status(400).json('wrong credentials');
+      }
+    })
+    .catch(err => res.status(400).json('wrong credentials'));;
 });
 
 // register route
