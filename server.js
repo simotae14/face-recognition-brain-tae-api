@@ -38,7 +38,10 @@ app.post('/register', (req, res) => { register.handleRegister(req, res, db, bcry
 app.get('/profile/:id', (req, res) => { profile.handleProfileGet(req, res, db) });
 
 // image route
-app.put('/image', (req, res) => Image.handleImage(req, res, db));
+app.put('/image', (req, res) => image.handleImage(req, res, db));
+
+// imageurl route
+app.post('/imageurl', (req, res) => image.handleImageUrlApi(req, res));
 
 app.listen(8080, () => {
   console.log('app is running on port 8080');
