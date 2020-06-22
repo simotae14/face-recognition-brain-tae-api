@@ -43,7 +43,7 @@ app.put('/image', (req, res) => image.handleImage(req, res, db));
 // imageurl route
 app.post('/imageurl', (req, res) => image.handleImageUrlApi(req, res));
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`app is running on port ${PORT}`);
 });
