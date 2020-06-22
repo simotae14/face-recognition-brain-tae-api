@@ -43,6 +43,7 @@ app.put('/image', (req, res) => image.handleImage(req, res, db));
 // imageurl route
 app.post('/imageurl', (req, res) => image.handleImageUrlApi(req, res));
 
-app.listen(8080, () => {
-  console.log('app is running on port 8080');
+const PORT = process.env.PORT
+app.listen(PORT, () => {
+  console.log(`app is running on port ${PORT}`);
 });
