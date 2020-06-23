@@ -37,7 +37,7 @@ const handleRegister = (req, res, db, bcrypt) => {
   })
   // replace the real error with a generic error
   //.catch(err => res.status(400).json(err));
-  .catch(() => res.status(400).json("unable to register"));
+  .catch((err) => res.status(400).json("unable to register" + err));
 };
 
 module.exports = {
