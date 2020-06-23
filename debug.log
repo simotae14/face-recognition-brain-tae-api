@@ -1,0 +1,4 @@
+[0623/011702.735:ERROR:process_reader_win.cc(151)] SuspendThread: Accesso negato. (0x5)
+[0623/011702.743:ERROR:process_reader_win.cc(151)] SuspendThread: Accesso negato. (0x5)
+[0623/011702.743:ERROR:process_reader_win.cc(123)] NtOpenThread: {Accesso negato} Un processo ha richiesto di accedere ad un oggetto ma non ha ottenuto i diritti di accesso. (0xc0000022)
+[0623/011702.747:ERROR:exception_snapshot_win.cc(98)] thread ID 7568 not found in process
